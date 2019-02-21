@@ -4,6 +4,7 @@
 	"description": "Create Smart Contracts Attributes Profile",
 	"version": "1.0.0",
 	"publisher": "Aniket-Engg",
+	"repository": "https://github.com/Aniket-Engg/sol-profiler-vscode",
 	"engines": {
 		"vscode": "^1.26.0"
 	},
@@ -35,5 +36,9 @@
 		"tslint": "^5.12.1",
 		"@types/node": "^10.12.21",
 		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {
+		"solparse": "^2.2.8",
+		"table": "^5.2.3"
 	}
 }
