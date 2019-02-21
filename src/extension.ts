@@ -63,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
 				});
 				var fileData = table.table(tableRows, config);  
 				fs.writeFileSync(vscode.workspace.rootPath + '/' + contractName + "_Profile.txt", fileData);
-				vscode.window.showInformationMessage(`Profile for contract ${contractName} generated and stored at ${vscode.workspace.rootPath}.`);
+				vscode.window.showInformationMessage(`Profile for contract '${contractName}' generated and stored at ${vscode.workspace.rootPath}.`);
 			}catch(error){
 				vscode.window.showErrorMessage("Error in generating profile: " + error.message);
 			};
