@@ -2,7 +2,7 @@
 	"name": "sol-profiler-vscode",
 	"displayName": "sol-profiler",
 	"description": "Create Smart Contracts Attributes Profile",
-	"version": "1.1.0",
+	"version": "1.2.1",
 	"publisher": "Aniket-Engg",
 	"repository": "https://github.com/Aniket-Engg/sol-profiler-vscode",
 	"engines": {

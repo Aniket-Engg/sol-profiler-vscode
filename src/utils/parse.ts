@@ -13,7 +13,10 @@ export var parsePartData = (contract:any, part:any) => {
     let params:any = [];
     if(part.params) {
         part.params.forEach(function(param: any) {
-            params.push(param.literal.literal);
+            if(param.storage_location)
+                params.push(param.literal.literal + ' ' + param.storage_location);
+            else
+                params.push(param.literal.literal);
         });
     funcName += '(' + params.join(',') + ')';
     }
@@ -58,7 +61,10 @@ export var parsePartData = (contract:any, part:any) => {
     }
     if(part.returnParams) {
         part.returnParams.params.forEach(function(param: any) {
-            returns.push(param.literal.literal);
+            if(param.storage_location)
+                returns.push(param.literal.literal + ' ' + param.storage_location);
+            else
+                returns.push(param.literal.literal);
         });
     }
 
