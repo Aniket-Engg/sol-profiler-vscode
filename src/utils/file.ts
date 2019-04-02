@@ -1,4 +1,5 @@
 const path = require('path'),
+    {execSync} = require('child_process'),
     fs = require('fs');
 
 var regEx = {
@@ -38,6 +39,10 @@ var processImports = async (file: string, content: string) => {
     while (group = regEx.import.exec(content)) {
       let _importFile = group[1];
       let filePath = path.join(path.dirname(file), _importFile);
+      if(!fs.existsSync(filePath)){
+        let nodeModulesPath = (await execSync('npm root', { cwd: path.dirname(file)})).toString().trim();
+        filePath = path.join(nodeModulesPath , _importFile);
+      }
       filePath = path.normalize(filePath);
       let fileContents = await processFile(filePath);
       if (fileContents) {
