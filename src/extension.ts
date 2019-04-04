@@ -38,15 +38,17 @@ export function activate(context: vscode.ExtensionContext) {
 			let pathArray = filePath.split('/');
 			let file = pathArray[pathArray.length -1];
 			let fileArray = file.split('.');
-			if(fileArray[fileArray.length -1] != 'sol')
+			if(fileArray[fileArray.length -1] != 'sol') {
 				throw new Error('Open a solidity(.sol) file in editor.');
+			}
 
 			let contractName = file.substr(0, file.length - 4);
 			let pragma = await getPragma(filePath);
 			let code = await processFile(filePath, true);
 			let source = parser.parse(pragma + '\n\n' + code);
-			if(source.body[0].type == 'PragmaStatement')
+			if(source.body[0].type == 'PragmaStatement') {
 				version = source.body[0].start_version.version;
+			}
 
 				tableRows.push(['','File: ' + file + ' , Solidity Pragma: ' + version, '','','','']);
 
@@ -63,14 +65,15 @@ export function activate(context: vscode.ExtensionContext) {
 					}
 				});
 				var fileData = table.table(tableRows, config);
-				if(!fs.existsSync(path.join(vscode.workspace.rootPath, '/profiles')))
+				if(!fs.existsSync(path.join(vscode.workspace.rootPath, '/profiles'))) {
 					fs.mkdirSync(path.join(vscode.workspace.rootPath, '/profiles'));
+				}
 				let profilePath = vscode.workspace.rootPath + '/profiles/' + contractName + "_Profile.txt";
 				fs.writeFileSync(profilePath, fileData);
 				vscode.window.showInformationMessage(`Profile for contract '${contractName}' generated and stored at ${profilePath}.`);
 			}catch(error){
 				vscode.window.showErrorMessage("Error in generating profile: " + error.message);
-			};
+			}
 		});
 
   	context.subscriptions.push(disposable);
