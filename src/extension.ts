@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 const parser = require("solparse");
 const table  = require('table');
 const fs = require('fs');
+const path = require('path');
 import {parsePartData} from './utils/parse';
 import {processFile, getPragma} from './utils/file';
 
@@ -33,16 +34,16 @@ export function activate(context: vscode.ExtensionContext) {
 		let version;
 		let tableRows:any = [];
 		try{
-			let path = vscode.window.activeTextEditor!.document.fileName;
-			let pathArray = path.split('/');
+			let filePath = vscode.window.activeTextEditor!.document.fileName;
+			let pathArray = filePath.split('/');
 			let file = pathArray[pathArray.length -1];
 			let fileArray = file.split('.');
 			if(fileArray[fileArray.length -1] != 'sol')
 				throw new Error('Open a solidity(.sol) file in editor.');
 
 			let contractName = file.substr(0, file.length - 4);
-			let pragma = await getPragma(path);
-			let code = await processFile(path, true);
+			let pragma = await getPragma(filePath);
+			let code = await processFile(filePath, true);
 			let source = parser.parse(pragma + '\n\n' + code);
 			if(source.body[0].type == 'PragmaStatement')
 				version = source.body[0].start_version.version;
@@ -61,9 +62,12 @@ export function activate(context: vscode.ExtensionContext) {
 					});
 					}
 				});
-				var fileData = table.table(tableRows, config);  
-				fs.writeFileSync(vscode.workspace.rootPath + '/' + contractName + "_Profile.txt", fileData);
-				vscode.window.showInformationMessage(`Profile for contract '${contractName}' generated and stored at ${vscode.workspace.rootPath}.`);
+				var fileData = table.table(tableRows, config);
+				if(!fs.existsSync(path.join(vscode.workspace.rootPath, '/profiles')))
+					fs.mkdirSync(path.join(vscode.workspace.rootPath, '/profiles'));
+				let profilePath = vscode.workspace.rootPath + '/profiles/' + contractName + "_Profile.txt";
+				fs.writeFileSync(profilePath, fileData);
+				vscode.window.showInformationMessage(`Profile for contract '${contractName}' generated and stored at ${profilePath}.`);
 			}catch(error){
 				vscode.window.showErrorMessage("Error in generating profile: " + error.message);
 			};
