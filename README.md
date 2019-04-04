@@ -1,3 +1,10 @@
+[![Travis (.com)](https://img.shields.io/travis/com/Aniket-Engg/sol-profiler-vscode.svg?style=for-the-badge)](https://travis-ci.com/Aniket-Engg/sol-profiler-vscode)
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/Aniket-Engg.sol-profiler-vscode.svg?style=for-the-badge)](https://marketplace.visualstudio.com/items?itemName=Aniket-Engg.sol-profiler-vscode)
+[![Visual Studio Marketplace Installs - Azure DevOps Extension](https://img.shields.io/visual-studio-marketplace/azure-devops/installs/total/Aniket-Engg.sol-profiler-vscode.svg?style=for-the-badge)](https://marketplace.visualstudio.com/items?itemName=Aniket-Engg.sol-profiler-vscode)
+[![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/Aniket-Engg.sol-profiler-vscode.svg?style=for-the-badge)](https://marketplace.visualstudio.com/items?itemName=Aniket-Engg.sol-profiler-vscode)
+[![Visual Studio Marketplace Rating (Stars)](https://img.shields.io/visual-studio-marketplace/stars/Aniket-Engg.sol-profiler-vscode.svg?style=for-the-badge)](https://marketplace.visualstudio.com/items?itemName=Aniket-Engg.sol-profiler-vscode)
+[![GitHub](https://img.shields.io/github/license/aniket-engg/sol-profiler-vscode.svg?style=for-the-badge)](https://github.com/Aniket-Engg/sol-profiler-vscode/blob/master/LICENSE)
+
 # sol-profiler-vscode
 
 sol-profiler extension lists down the attributes of all the functions/constructor of the `.sol` file opened in editor.  It stores generated profile in `.txt` file at project root.
