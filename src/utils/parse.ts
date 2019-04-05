@@ -1,11 +1,16 @@
 export var parsePartData = (contract:any, part:any) => {
     let contractName = contract.name;
-    if(contract.type == 'LibraryStatement')
-        contractName = contractName + ' -lib';
+    if(contract.type == 'LibraryStatement') {
+        contractName = contractName + ' (library)';
+    }
+    else if(contract.type == 'InterfaceStatement') {
+        contractName = contractName + ' (interface)';
+         }
     
     let funcName = null;
-    if(part.type == 'ConstructorDeclaration')
+    if(part.type == 'ConstructorDeclaration') {
         funcName = 'constructor';
+    }
         else if(part.type == 'FunctionDeclaration'){
                 funcName = part.name || '';
         }
@@ -13,19 +18,26 @@ export var parsePartData = (contract:any, part:any) => {
     let params:any = [];
     if(part.params) {
         part.params.forEach(function(param: any) {
-            if(param.storage_location)
+            if(param.storage_location) {
                 params.push(param.literal.literal + ' ' + param.storage_location);
-            else
+            }
+            else {
                 params.push(param.literal.literal);
+            }
         });
     funcName += '(' + params.join(',') + ')';
     }
     else {
         //Check fallback
-        if(!funcName && !part.name && !part.params && !part.returnParams)
+        if(!funcName && !part.name && !part.params && !part.returnParams) {
             funcName = '()' + ' -fallback';
-        else
+        }
+        else {
             funcName += '()';
+        }
+    }
+    if(part.is_abstract) {
+        funcName += ' -abstract';
     }
 
     // Default is public
@@ -61,10 +73,12 @@ export var parsePartData = (contract:any, part:any) => {
     }
     if(part.returnParams) {
         part.returnParams.params.forEach(function(param: any) {
-            if(param.storage_location)
+            if(param.storage_location) {
                 returns.push(param.literal.literal + ' ' + param.storage_location);
-            else
+            }
+            else {
                 returns.push(param.literal.literal);
+            }
         });
     }
 
@@ -76,4 +90,4 @@ export var parsePartData = (contract:any, part:any) => {
         returns     :   returns,
         modifiers   :   custom
     };
-}
+};

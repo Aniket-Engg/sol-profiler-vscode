@@ -11,11 +11,13 @@ var processedFiles:any;
 
 export var processFile = async(file: string, isRoot: boolean = false) => {
 
-    if(isRoot)
+    if(isRoot) {
         processedFiles = [];
+    }
 
-    if (processedFiles.indexOf(file) !== -1) 
+    if (processedFiles.indexOf(file) !== -1) { 
         return;
+    }
       
     processedFiles.push(file);
     let result = '';
@@ -30,7 +32,7 @@ export var processFile = async(file: string, isRoot: boolean = false) => {
     contents = contents.replace(regEx.import, '').trim();
     result += contents;
     return result;
-}
+};
 
 var processImports = async (file: string, content: string) => {
     let group: any;
@@ -51,10 +53,10 @@ var processImports = async (file: string, content: string) => {
     }
     return result;
 
-  }
+  };
 
 export var getPragma = async(path:string) => {
     let contents = fs.readFileSync(path, { encoding: 'utf-8' });
     let group = regEx.pragma.exec(contents);
     return group && group[1];
-}
+};
