@@ -54,14 +54,14 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 			}
 
-				tableRows.push(['','File: ' + file + ' , Solidity Pragma: ' + version, '','','','']);
+				tableRows.push(['','File: ' + file + ', Solidity Pragma: ' + version, '','','','']);
 
 				// Adding header row 
-				tableRows.push(['Contract/Library', 'Function/Constructor','Visibility','View/Pure','Returns','Modifiers']);
-				source.body.forEach((contract: any) => {
-					if(contract['type'] == 'ContractStatement' || contract.type == 'LibraryStatement') {
+				tableRows.push(['Contract/Library/Interface', 'Function(Params with Storage Location)', 'Visibility', 'View/Pure', 'Returns', 'Modifiers']);
+        		source.body.forEach((contract: any) => {
+					if(contract.type != 'PragmaStatement'){
 						contract.body.forEach(function(part : any) {
-						if(part.type == 'ConstructorDeclaration' || (part.type == 'FunctionDeclaration' && part.is_abstract == false)) {
+						if(part.type == 'ConstructorDeclaration' || part.type == 'FunctionDeclaration') {
 							let {contractName, functionName, visibility, viewOrPure, returns, modifiers} = parsePartData(contract, part);
 							tableRows.push([contractName, functionName, visibility, viewOrPure, returns, modifiers]);
 						}
