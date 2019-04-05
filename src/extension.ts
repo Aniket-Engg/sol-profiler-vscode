@@ -47,7 +47,10 @@ export function activate(context: vscode.ExtensionContext) {
 			let code = await processFile(filePath, true);
 			let source = parser.parse(pragma + '\n\n' + code);
 			if(source.body[0].type == 'PragmaStatement') {
-				version = source.body[0].start_version.version;
+				let pragmaData = source.body[0];
+				version = pragmaData.start_version.operator + pragmaData.start_version.version;
+				if(pragmaData.end_version)
+					version += pragmaData.end_version.operator + pragmaData.end_version.version;
 			}
 
 				tableRows.push(['','File: ' + file + ' , Solidity Pragma: ' + version, '','','','']);
