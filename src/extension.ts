@@ -49,8 +49,9 @@ export function activate(context: vscode.ExtensionContext) {
 			if(source.body[0].type == 'PragmaStatement') {
 				let pragmaData = source.body[0];
 				version = pragmaData.start_version.operator + pragmaData.start_version.version;
-				if(pragmaData.end_version)
+				if(pragmaData.end_version) {
 					version += pragmaData.end_version.operator + pragmaData.end_version.version;
+				}
 			}
 
 				tableRows.push(['','File: ' + file + ' , Solidity Pragma: ' + version, '','','','']);
