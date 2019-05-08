@@ -3,8 +3,8 @@ const parser = require("solparse");
 const table  = require('table');
 const fs = require('fs');
 const path = require('path');
+const straightener = require('sol-straightener');
 import {parsePartData} from './utils/parse';
-import {processFile, getPragma} from './utils/file';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -43,11 +43,10 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 
 			let contractName = file.substr(0, file.length - 4);
-			let pragma = await getPragma(filePath);
-			let code = await processFile(filePath, true);
-			let source = parser.parse(pragma + '\n\n' + code);
-			if(source.body[0].type == 'PragmaStatement') {
-				let pragmaData = source.body[0];
+			const contractSource = await straightener.straighten(filePath);
+			let parsedData = parser.parse(contractSource);
+			if(parsedData.body[0].type == 'PragmaStatement') {
+				let pragmaData = parsedData.body[0];
 				version = pragmaData.start_version.operator + pragmaData.start_version.version;
 				if(pragmaData.end_version) {
 					version += pragmaData.end_version.operator + pragmaData.end_version.version;
@@ -58,7 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 				// Adding header row 
 				tableRows.push(['Contract/Library/Interface', 'Function(Params with Storage Location)', 'Visibility', 'View/Pure', 'Returns', 'Modifiers']);
-        		source.body.forEach((contract: any) => {
+        		parsedData.body.forEach((contract: any) => {
 					if(contract.type != 'PragmaStatement'){
 						contract.body.forEach(function(part : any) {
 						if(part.type == 'ConstructorDeclaration' || part.type == 'FunctionDeclaration') {
